@@ -30,6 +30,11 @@ let audSBT = [];
 let audBAN = [];
 let audRTV = [];
 let audTLE = [];
+let maxTLE = [];
+let maxInterval = 0;
+let intervals = [];
+
+
 
 function randomInt(min, max) {
     return min + Math.floor((max - min) * Math.random());
@@ -37,10 +42,12 @@ function randomInt(min, max) {
 
 let jornal = localStorage.getItem('jornal');
 let csv = localStorage.getItem('file');
+let intervalsArray = JSON.parse(localStorage.getItem('intervals'));
+
 document.getElementById('imgJornal').src = logoJornais.get('logo' + jornal);
 
 let allTextLines = csv.split('\n');
-for (let row = allTextLines.length - 2; row > 7; row--) {
+for (let row = allTextLines.length - 2; row > 8; row--) { 
     const cols = allTextLines[row].split(';');
     time.push(cols[0]);
     audGLO.push(cols[2] == "-" ? "0" : cols[2].replace(",", "."));
@@ -49,24 +56,50 @@ for (let row = allTextLines.length - 2; row > 7; row--) {
     audBAN.push(cols[5] == "-" ? "0" : cols[5].replace(",", "."));
     audRTV.push(cols[6] == "-" ? "0" : cols[6].replace(",", "."));
     audTLE.push(cols[7] == "-" ? "0" : cols[7].replace(",", "."));
+    maxTLE.push(parseFloat(cols[7] == "-" ? "0" : cols[7].replace(",", ".")));
 
 }
+
+maxInterval = Math.max(...maxTLE) + 1;
+flag = 0;
+
+for (let index = 0; index < time.length; index++) {
+    if(intervalsArray.includes(time[index])){
+        if(flag == 0){
+            flag = 1;
+            intervals.push(flag);
+            continue;
+        }else{
+            intervals.push(flag);
+            flag = 0;
+            continue;
+        }
+    }
+    intervals.push(flag);
+}
+
+intervals.forEach((element, index) => {
+    if(element !== 0){
+        intervals[index] = maxInterval;
+    }
+});
 
 date = allTextLines[6].substr(0, 10).replace(/-/g, '/');
 startEndTime = allTextLines[6].substr(11, 13);
 audReceived = parseFloat(allTextLines[allTextLines.length - 2].split(';')[2].replace(',', '.')).toFixed(1);
 audDelivered = parseFloat(allTextLines[9].split(';')[2].replace(',', '.')).toFixed(1);
 tle = parseFloat(allTextLines[7].split(';')[7].replace(',', '.')).toFixed(1);
-glo = parseFloat(allTextLines[7].split(';')[2].replace(',', '.')).toFixed(1);
+glo = allTextLines[7].split(';')[2] == "-" ? 0 : parseFloat(allTextLines[7].split(';')[2].replace(',', '.')).toFixed(1);
 sglo = (glo * 100 / tle).toFixed(1);
-rec = parseFloat(allTextLines[7].split(';')[3].replace(',', '.')).toFixed(1);
+rec = allTextLines[7].split(';')[3] == "-" ? 0 : parseFloat(allTextLines[7].split(';')[3].replace(',', '.')).toFixed(1);
 srec = (rec * 100 / tle).toFixed(1);
-sbt = parseFloat(allTextLines[7].split(';')[4].replace(',', '.')).toFixed(1);
+sbt = allTextLines[7].split(';')[4] == "-" ? 0 : parseFloat(allTextLines[7].split(';')[4].replace(',', '.')).toFixed(1);
 ssbt = (sbt * 100 / tle).toFixed(1);
-ban = parseFloat(allTextLines[7].split(';')[5].replace(',', '.')).toFixed(1);
+ban = allTextLines[7].split(';')[5] == "-" ? 0 : parseFloat(allTextLines[7].split(';')[5].replace(',', '.')).toFixed(1);
 sban = (ban * 100 / tle).toFixed(1);
-rtv = parseFloat(allTextLines[7].split(';')[6].replace(',', '.')).toFixed(1);
+rtv = allTextLines[7].split(';')[6] == "-" ? 0 : parseFloat(allTextLines[7].split(';')[6].replace(',', '.')).toFixed(1);
 srtv = (rtv * 100 / tle).toFixed(1);
+
 
 document.getElementById("date").innerText = date;
 document.getElementById("startEndTime").innerText = startEndTime;
@@ -74,16 +107,16 @@ document.getElementById("audReceived").innerText = audReceived;
 document.getElementById("audDelivered").innerText = audDelivered;
 
 document.getElementById("tle").innerText = tle;
-document.getElementById("glo").innerText = glo;
-document.getElementById("sglo").innerText = sglo + "%";
-document.getElementById("rec").innerText = rec;
-document.getElementById("srec").innerText = srec + "%";
-document.getElementById("sbt").innerText = sbt;
-document.getElementById("ssbt").innerText = ssbt + "%";
-document.getElementById("ban").innerText = ban;
-document.getElementById("sban").innerText = sban + "%";
-document.getElementById("rtv").innerText = rtv;
-document.getElementById("srtv").innerText = srtv + "%";
+document.getElementById("glo").innerText = glo == 0 ? "-" : glo;
+document.getElementById("sglo").innerText = sglo == 0 ? "-" : sglo  + "%";
+document.getElementById("rec").innerText = rec == 0 ? "-" : rec;
+document.getElementById("srec").innerText = srec == 0 ? "-" : srec + "%";
+document.getElementById("sbt").innerText = sbt == 0 ? "-" : sbt;
+document.getElementById("ssbt").innerText = ssbt == 0 ? "-" : ssbt + "%";
+document.getElementById("ban").innerText = ban == 0 ? "-" : ban;
+document.getElementById("sban").innerText = sban == 0 ? "-" : sban + "%";
+document.getElementById("rtv").innerText = rtv == 0 ? "-" : rtv;
+document.getElementById("srtv").innerText = srtv == 0 ? "-" : srtv + "%";
 
 var ctx = document.getElementById("chart").getContext('2d');
 Chart.defaults.global.legend.display = false;
@@ -91,8 +124,10 @@ Chart.defaults.global.elements.point.radius = 0;
 Chart.defaults.global.elements.point.hitRadius = 10;
 Chart.defaults.global.elements.line.tension = 0;
 
+
+
 var chartGraph = new Chart(ctx, {
-    type: 'line',
+    type: 'bar',
     data: {
         labels: time,
         datasets: [{
@@ -113,7 +148,8 @@ var chartGraph = new Chart(ctx, {
             borderWidth: 3,
             borderColor: '#0000ff',
             backgroundColor: 'transparent',
-            color: '#0000ff'
+            color: '#0000ff',
+            type:'line'
         },
         {
             label: 'REC',
@@ -129,7 +165,8 @@ var chartGraph = new Chart(ctx, {
             data: audREC,
             borderWidth: 3,
             borderColor: '#ff0000',
-            backgroundColor: 'transparent'
+            backgroundColor: 'transparent',
+            type: 'line'
         },
         {
             label: 'SBT',
@@ -146,7 +183,8 @@ var chartGraph = new Chart(ctx, {
             data: audSBT,
             borderWidth: 3,
             borderColor: '#00b050',
-            backgroundColor: 'transparent'
+            backgroundColor: 'transparent',
+            type:'line'
         },
         {
             label: 'BAND',
@@ -163,7 +201,8 @@ var chartGraph = new Chart(ctx, {
             data: audBAN,
             borderWidth: 3,
             borderColor: '#ff33cc',
-            backgroundColor: 'transparent'
+            backgroundColor: 'transparent',
+            type:'line'
         },
         {
             label: 'REDETV',
@@ -180,7 +219,8 @@ var chartGraph = new Chart(ctx, {
             data: audRTV,
             borderWidth: 3,
             borderColor: '#918a54',
-            backgroundColor: 'transparent'
+            backgroundColor: 'transparent',
+            type:'line'
         },
         {
             label: 'TLE',
@@ -197,7 +237,24 @@ var chartGraph = new Chart(ctx, {
             data: audTLE,
             borderWidth: 3,
             borderColor: '#999999',
-            backgroundColor: 'transparent'
+            backgroundColor: 'transparent',
+            type:'line'
+        },
+        {
+            label: 'BREAK',
+            datalabels: {
+                formatter: function (value, context) {
+                    return parseFloat(value).toFixed(1);
+                },
+                display: function (context) {
+                    return context.dataIndex % 20 == 0 && context.dataset.data[context.dataIndex] != '0';
+                },
+                color: '#999999'
+            },
+
+            data: intervals,
+            borderColor: '#999999',
+            backgroundColor: 'rgba(10,10,10,0.03)'
         }
         ]
     },
@@ -246,7 +303,9 @@ var chartGraph = new Chart(ctx, {
                     callback: function (value, index, values) {
                         return value.endsWith("0") ? value : "";
                     }
-                }
+                },
+                 categoryPercentage: 1,
+                 barPercentage: 1
             }],
             yAxes: [{
                 display: false
