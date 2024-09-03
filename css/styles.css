@@ -2,14 +2,14 @@ body{
 	font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
 }
 
-.container{
-	width: 1260px;
-	margin: 0 auto;
-}
-
 .row{
 	display:flex;
 	align-items:center;
+}
+
+.hi{
+	width: 100%;
+	text-align: center;
 }
 
 .pr{
@@ -68,4 +68,14 @@ body{
 
 .tle{
 	color: rgb(180, 180, 180);
+}
+
+.custom_pgm{
+	padding: 6px 12px;
+    background-color: #0E1A77;
+    color: white;
+    text-transform: uppercase;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
 }
