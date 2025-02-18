@@ -27,12 +27,23 @@ body{
 .ml{
 	margin-left:30px;
 }
+.download{
+	margin-right: 10px;
+	cursor: pointer;
+}
+.title{
+	color: #0025a0;
+	font-weight: bolder;
+	font-size: x-large;
+	margin-top: -6px;
+	margin-right: 10px;
+}
 
 .time{
-	background-color: rgb(14, 26, 119);
+	background-color: #0025a0;
 	width: max-content;
 	padding: 10px; 
-	color: white;
+	color: #ffffff;
 }
 
 .logo{
@@ -47,35 +58,43 @@ body{
 }
 
 .globo{
-	color: rgb(0, 0, 255);
+	color: #0025a0;
 }
 
 .record{
-	color: rgb(255, 0, 0);
+	color: #d65142;
 }
 
 .sbt{
-	color: rgb(0, 176, 80);
+	color: #5eb63e;
 }
 
 .band{
-	color: rgb(255, 51, 204);
+	color: #d743bf;
 }
 
 .redetv{
-	color: rgb(148, 138, 84);
+	color: #ec7c32;
+}
+
+.nic{
+	color: #833b0c;
 }
 
 .tle{
-	color: rgb(180, 180, 180);
+	color: #a9a9a9;
 }
 
 .custom_pgm{
 	padding: 6px 12px;
-    background-color: #0E1A77;
-    color: white;
+    background-color: #0025a0;
+    color: #ffffff;
     text-transform: uppercase;
     border-radius: 20px;
     display: flex;
     align-items: center;
+}
+
+.hidden{
+	display: none;
 }
