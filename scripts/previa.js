@@ -19,7 +19,7 @@ function fillFileName(event) {
     file = reader.result;
   };
   reader.onerror = (event) => {
-    console.log(event);
+    console.error(event);
     if (event.target.error.name == "NotReadableError") {
       alert("O arquivo não pode ser lido!");
     }
