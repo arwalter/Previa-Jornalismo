@@ -67,8 +67,8 @@ document.getElementById('imgJornal').src = logoJornais.get('logo' + jornal);
     <div class="custom_pgm"><b>${pgm}</b></div>`;
 }
 
-let allTextLines = csv.split('\n');
-for (let row = allTextLines.length - 2; row > 8; row--) { 
+let allTextLines = csv.split('\n'); //separa as linhas do arquivo scv
+for (let row = allTextLines.length - 3; row > 6; row--) { 
     const cols = allTextLines[row].split(';');
     time.push(cols[0]);
     audGLO.push(cols[2] == "-" ? "0" : cols[2].replace(",", "."));
@@ -81,8 +81,9 @@ for (let row = allTextLines.length - 2; row > 8; row--) {
     maxTLE.push(parseFloat(cols[8] == "-" ? "0" : cols[8].replace(",", ".")));
 
 }
+
 maxInterval = Math.max(...maxTLE) + 1;
-flag = 0;//flag 0 não pinta o gráfico de intervalos
+flag = 0; //flag 0 não pinta o gráfico de intervalos
 
 for (let index = 0; index < time.length; index++) {
     if(intervalsArray.includes(time[index])){
@@ -105,23 +106,23 @@ intervals.forEach((element, index) => {
     }
 });
 
-date = allTextLines[6].substr(0, 10).replace(/-/g, '/');
-startEndTime = allTextLines[6].substr(11, 13);
-audReceived = parseFloat(allTextLines[allTextLines.length - 2].split(';')[2].replace(',', '.')).toFixed(1);
-audDelivered = parseFloat(allTextLines[9].split(';')[2].replace(',', '.')).toFixed(1);
+date = allTextLines[1].split(';')[1]
+startEndTime = allTextLines[allTextLines.length-2].split(';')[0];
+audReceived = parseFloat(allTextLines[allTextLines.length - 3].split(';')[2].replace(',', '.')).toFixed(1);
+audDelivered = parseFloat(allTextLines[7].split(';')[2].replace(',', '.')).toFixed(1);
 
-tle = parseFloat(allTextLines[7].split(';')[8].replace(',', '.')).toFixed(1);
-glo = allTextLines[7].split(';')[2] == "-" ? 0 : parseFloat(allTextLines[7].split(';')[2].replace(',', '.')).toFixed(1);
+tle = parseFloat(allTextLines[allTextLines.length-2].split(';')[8].replace(',', '.')).toFixed(1);
+glo = allTextLines[allTextLines.length-2].split(';')[2] == "-" ? 0 : parseFloat(allTextLines[allTextLines.length-2].split(';')[2].replace(',', '.')).toFixed(1);
 sglo = (glo * 100 / tle).toFixed(1);
-rec = allTextLines[7].split(';')[3] == "-" ? 0 : parseFloat(allTextLines[7].split(';')[3].replace(',', '.')).toFixed(1);
+rec = allTextLines[allTextLines.length-2].split(';')[3] == "-" ? 0 : parseFloat(allTextLines[allTextLines.length-2].split(';')[3].replace(',', '.')).toFixed(1);
 srec = (rec * 100 / tle).toFixed(1);
-sbt = allTextLines[7].split(';')[4] == "-" ? 0 : parseFloat(allTextLines[7].split(';')[4].replace(',', '.')).toFixed(1);
+sbt = allTextLines[allTextLines.length-2].split(';')[4] == "-" ? 0 : parseFloat(allTextLines[allTextLines.length-2].split(';')[4].replace(',', '.')).toFixed(1);
 ssbt = (sbt * 100 / tle).toFixed(1);
-ban = allTextLines[7].split(';')[5] == "-" ? 0 : parseFloat(allTextLines[7].split(';')[5].replace(',', '.')).toFixed(1);
+ban = allTextLines[allTextLines.length-2].split(';')[5] == "-" ? 0 : parseFloat(allTextLines[allTextLines.length-2].split(';')[5].replace(',', '.')).toFixed(1);
 sban = (ban * 100 / tle).toFixed(1);
-rtv = allTextLines[7].split(';')[6] == "-" ? 0 : parseFloat(allTextLines[7].split(';')[6].replace(',', '.')).toFixed(1);
+rtv = allTextLines[allTextLines.length-2].split(';')[6] == "-" ? 0 : parseFloat(allTextLines[allTextLines.length-2].split(';')[6].replace(',', '.')).toFixed(1);
 srtv = (rtv * 100 / tle).toFixed(1);
-nic = allTextLines[7].split(';')[7] == "-" ? 0 : parseFloat(allTextLines[7].split(';')[7].replace(',', '.')).toFixed(1);
+nic = allTextLines[allTextLines.length-2].split(';')[7] == "-" ? 0 : parseFloat(allTextLines[allTextLines.length-2].split(';')[7].replace(',', '.')).toFixed(1);
 snic = (nic * 100 / tle).toFixed(1);
 
 document.getElementById("date").innerText = date;
