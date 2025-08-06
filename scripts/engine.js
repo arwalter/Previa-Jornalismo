@@ -68,7 +68,7 @@ document.getElementById('imgJornal').src = logoJornais.get('logo' + jornal);
 }
 
 let allTextLines = csv.split('\n'); //separa as linhas do arquivo scv
-for (let row = allTextLines.length - 3; row > 6; row--) { 
+for (let row = allTextLines.length - 2; row > 6; row--) { 
     const cols = allTextLines[row].split(';');
     time.push(cols[0]);
     audGLO.push(cols[2] == "-" ? "0" : cols[2].replace(",", "."));
@@ -106,8 +106,9 @@ intervals.forEach((element, index) => {
     }
 });
 
-date = allTextLines[1].split(';')[1]
-startEndTime = allTextLines[allTextLines.length-2].split(';')[0];
+date = allTextLines[1].split(';')[1].replaceAll('-','/')
+
+startEndTime = allTextLines[allTextLines.length-1].split(';')[0];
 audReceived = parseFloat(allTextLines[allTextLines.length - 3].split(';')[2].replace(',', '.')).toFixed(1);
 audDelivered = parseFloat(allTextLines[7].split(';')[2].replace(',', '.')).toFixed(1);
 
