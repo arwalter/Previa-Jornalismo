@@ -50,6 +50,7 @@ let maxTLE = [];
 let maxInterval = 0;
 let intervals = [];
 
+
 function randomInt(min, max) {
     return min + Math.floor((max - min) * Math.random());
 }
@@ -68,7 +69,16 @@ document.getElementById('imgJornal').src = logoJornais.get('logo' + jornal);
 }
 
 let allTextLines = csv.split('\n'); //separa as linhas do arquivo scv
-for (let row = allTextLines.length - 2; row > 6; row--) { 
+
+// Configuração das linhas do csv.//
+const dateLine = 1;
+const firstDataLine = 7;
+const lastDataLine = allTextLines.length - 2;
+const mediaDataLine = allTextLines.length - 1;
+// Fim das configurações de linha//
+
+
+for (let row = lastDataLine; row >= firstDataLine; row--) { 
     const cols = allTextLines[row].split(';');
     time.push(cols[0]);
     audGLO.push(cols[2] == "-" ? "0" : cols[2].replace(",", "."));
@@ -108,23 +118,23 @@ intervals.forEach((element, index) => {
 
 date = allTextLines[1].split(';')[1].replaceAll('-','/')
 
-startEndTime = allTextLines[allTextLines.length-1].split(';')[0];
-audReceived = parseFloat(allTextLines[allTextLines.length - 2].split(';')[2].replace(',', '.')).toFixed(1);
-audDelivered = parseFloat(allTextLines[7].split(';')[2].replace(',', '.')).toFixed(1);
+startEndTime = allTextLines[mediaDataLine].split(';')[0];
+audReceived = parseFloat(allTextLines[lastDataLine].split(';')[2].replace(',', '.')).toFixed(1);
+audDelivered = parseFloat(allTextLines[firstDataLine].split(';')[2].replace(',', '.')).toFixed(1);
 
 //dados de média de audiência
-tle = parseFloat(allTextLines[allTextLines.length-2].split(';')[8].replace(',', '.')).toFixed(1);
-glo = allTextLines[allTextLines.length-1].split(';')[2] == "-" ? 0 : parseFloat(allTextLines[allTextLines.length-1].split(';')[2].replace(',', '.')).toFixed(1);
+tle = parseFloat(allTextLines[mediaDataLine].split(';')[8].replace(',', '.')).toFixed(1);
+glo = allTextLines[mediaDataLine].split(';')[2] == "-" ? 0 : parseFloat(allTextLines[mediaDataLine].split(';')[2].replace(',', '.')).toFixed(1);
 sglo = (glo * 100 / tle).toFixed(1);
-rec = allTextLines[allTextLines.length-1].split(';')[3] == "-" ? 0 : parseFloat(allTextLines[allTextLines.length-1].split(';')[3].replace(',', '.')).toFixed(1);
+rec = allTextLines[mediaDataLine].split(';')[3] == "-" ? 0 : parseFloat(allTextLines[mediaDataLine].split(';')[3].replace(',', '.')).toFixed(1);
 srec = (rec * 100 / tle).toFixed(1);
-sbt = allTextLines[allTextLines.length-1].split(';')[4] == "-" ? 0 : parseFloat(allTextLines[allTextLines.length-1].split(';')[4].replace(',', '.')).toFixed(1);
+sbt = allTextLines[mediaDataLine].split(';')[4] == "-" ? 0 : parseFloat(allTextLines[mediaDataLine].split(';')[4].replace(',', '.')).toFixed(1);
 ssbt = (sbt * 100 / tle).toFixed(1);
-ban = allTextLines[allTextLines.length-1].split(';')[5] == "-" ? 0 : parseFloat(allTextLines[allTextLines.length-1].split(';')[5].replace(',', '.')).toFixed(1);
+ban = allTextLines[mediaDataLine].split(';')[5] == "-" ? 0 : parseFloat(allTextLines[mediaDataLine].split(';')[5].replace(',', '.')).toFixed(1);
 sban = (ban * 100 / tle).toFixed(1);
-rtv = allTextLines[allTextLines.length-1].split(';')[6] == "-" ? 0 : parseFloat(allTextLines[allTextLines.length-1].split(';')[6].replace(',', '.')).toFixed(1);
+rtv = allTextLines[mediaDataLine].split(';')[6] == "-" ? 0 : parseFloat(allTextLines[mediaDataLine].split(';')[6].replace(',', '.')).toFixed(1);
 srtv = (rtv * 100 / tle).toFixed(1);
-nic = allTextLines[allTextLines.length-1].split(';')[7] == "-" ? 0 : parseFloat(allTextLines[allTextLines.length-1].split(';')[7].replace(',', '.')).toFixed(1);
+nic = allTextLines[mediaDataLine].split(';')[7] == "-" ? 0 : parseFloat(allTextLines[mediaDataLine].split(';')[7].replace(',', '.')).toFixed(1);
 snic = (nic * 100 / tle).toFixed(1);
 
 document.getElementById("date").innerText = date;
