@@ -109,27 +109,29 @@ intervals.forEach((element, index) => {
 date = allTextLines[1].split(';')[1].replaceAll('-','/')
 
 startEndTime = allTextLines[allTextLines.length-1].split(';')[0];
-audReceived = parseFloat(allTextLines[allTextLines.length - 3].split(';')[2].replace(',', '.')).toFixed(1);
+audReceived = parseFloat(allTextLines[allTextLines.length - 2].split(';')[2].replace(',', '.')).toFixed(1);
 audDelivered = parseFloat(allTextLines[7].split(';')[2].replace(',', '.')).toFixed(1);
 
+//dados de média de audiência
 tle = parseFloat(allTextLines[allTextLines.length-2].split(';')[8].replace(',', '.')).toFixed(1);
-glo = allTextLines[allTextLines.length-2].split(';')[2] == "-" ? 0 : parseFloat(allTextLines[allTextLines.length-2].split(';')[2].replace(',', '.')).toFixed(1);
+glo = allTextLines[allTextLines.length-1].split(';')[2] == "-" ? 0 : parseFloat(allTextLines[allTextLines.length-1].split(';')[2].replace(',', '.')).toFixed(1);
 sglo = (glo * 100 / tle).toFixed(1);
-rec = allTextLines[allTextLines.length-2].split(';')[3] == "-" ? 0 : parseFloat(allTextLines[allTextLines.length-2].split(';')[3].replace(',', '.')).toFixed(1);
+rec = allTextLines[allTextLines.length-1].split(';')[3] == "-" ? 0 : parseFloat(allTextLines[allTextLines.length-1].split(';')[3].replace(',', '.')).toFixed(1);
 srec = (rec * 100 / tle).toFixed(1);
-sbt = allTextLines[allTextLines.length-2].split(';')[4] == "-" ? 0 : parseFloat(allTextLines[allTextLines.length-2].split(';')[4].replace(',', '.')).toFixed(1);
+sbt = allTextLines[allTextLines.length-1].split(';')[4] == "-" ? 0 : parseFloat(allTextLines[allTextLines.length-1].split(';')[4].replace(',', '.')).toFixed(1);
 ssbt = (sbt * 100 / tle).toFixed(1);
-ban = allTextLines[allTextLines.length-2].split(';')[5] == "-" ? 0 : parseFloat(allTextLines[allTextLines.length-2].split(';')[5].replace(',', '.')).toFixed(1);
+ban = allTextLines[allTextLines.length-1].split(';')[5] == "-" ? 0 : parseFloat(allTextLines[allTextLines.length-1].split(';')[5].replace(',', '.')).toFixed(1);
 sban = (ban * 100 / tle).toFixed(1);
-rtv = allTextLines[allTextLines.length-2].split(';')[6] == "-" ? 0 : parseFloat(allTextLines[allTextLines.length-2].split(';')[6].replace(',', '.')).toFixed(1);
+rtv = allTextLines[allTextLines.length-1].split(';')[6] == "-" ? 0 : parseFloat(allTextLines[allTextLines.length-1].split(';')[6].replace(',', '.')).toFixed(1);
 srtv = (rtv * 100 / tle).toFixed(1);
-nic = allTextLines[allTextLines.length-2].split(';')[7] == "-" ? 0 : parseFloat(allTextLines[allTextLines.length-2].split(';')[7].replace(',', '.')).toFixed(1);
+nic = allTextLines[allTextLines.length-1].split(';')[7] == "-" ? 0 : parseFloat(allTextLines[allTextLines.length-1].split(';')[7].replace(',', '.')).toFixed(1);
 snic = (nic * 100 / tle).toFixed(1);
 
 document.getElementById("date").innerText = date;
 document.getElementById("startEndTime").innerText = startEndTime;
 document.getElementById("audReceived").innerText = audReceived;
 document.getElementById("audDelivered").innerText = audDelivered;
+
 if(history){
     document.querySelector('.hi').innerHTML = `
     <div id="history" style="${history.haud >= 0 ? 'color:rgb(0, 176, 80)':'color:rgb(247, 33, 84)'};font-weight: 600;"></div>
